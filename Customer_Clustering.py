@@ -1,17 +1,12 @@
-# This Python 3 environment comes with many helpful analytics libraries installed
-# It is defined by the kaggle/python docker image: https://github.com/kaggle/docker-python
-# For example, here's several helpful packages to load in 
-
+# This Python 3 environment 
 #Clustering of customers based on Number of items Purchased(Quantity),Product price per unit in sterling(Unit Price)'
+#Importing the libraries
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-# Input data files are available in the "../input/" directory.
-# For example, running this (by clicking run or pressing Shift+Enter) will list the files in the input directory
-import os
-print (os.listdir("../input"))
+
 # Any results you write to the current directory are saved as output.
-dataset=pd.read_csv("../input/data.csv",encoding = "ISO-8859-1") # Encoded as this dataset contains West Europe countries retail transactions
+dataset=pd.read_csv("data.csv",encoding = "ISO-8859-1") # Encoded as this dataset contains West Europe countries retail transactions
 dataset.shape  #(541909, 8)
 '''
 > dataset.select_dtypes(include=['object']).columns
@@ -33,10 +28,12 @@ dtype('O')
 print (dataset.duplicated().sum())    
 dataset.drop_duplicates(inplace = True)
 dataset.shape   #(536641, 8)
+
 #Removing missing values based on  CustomerID.
 dataset.dropna(axis = 0, subset =['CustomerID'], inplace = True)
 dataset.shape #(406829, 8)
 print (pd.DataFrame(dataset.isnull().sum()))    #Checking for any null entries column wise, We can see that there are 0 null entries
+
 #Removing Cancelled orders
 dataset = dataset[(dataset.InvoiceNo).apply(lambda x:( 'C' not in x))]
 dataset.shape    #(392732, 8)
@@ -50,6 +47,7 @@ for k,v in (df_customerid_groups):
     df_cluster.loc[count] = [(v['Quantity'].sum()), v['UnitPrice'].sum(), k]
     count+=1
 df_cluster.shape  #(4339, 3)
+
 # Applying K-Means Clustering Algorithm
 # We use only 'Quantity','UnitPrice' columns to cluser 
 X = df_cluster.iloc[:, [0, 1]].values
@@ -58,6 +56,7 @@ X = df_cluster.iloc[:, [0, 1]].values
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X= sc_X.fit_transform(X)
+
 #Using the Elbow method to find the optical number of clusters
 from sklearn.cluster import KMeans
 wcss = [] #With in cluster sum of squers(Inertia)
@@ -93,6 +92,3 @@ plt.xlabel('Number of items Purchased(Quantity)')
 plt.ylabel('Product price per unit in sterling(Unit Price)')
 plt.legend()
 plt.show()
-
-
-
