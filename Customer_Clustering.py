@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Any results you write to the current directory are saved as output.
+#Importing the dataset
 dataset=pd.read_csv("data.csv",encoding = "ISO-8859-1") # Encoded as this dataset contains West Europe countries retail transactions
 dataset.shape  #(541909, 8)
 '''
@@ -39,6 +39,7 @@ dataset = dataset[(dataset.InvoiceNo).apply(lambda x:( 'C' not in x))]
 dataset.shape    #(392732, 8)
 df_customerid_groups=dataset.groupby("CustomerID")
 print (len((df_customerid_groups.groups))) #length of dictionary - 4339
+
 '''Creating a new dataframe with 'Quantity','UnitPrice','CustomerID' columns and we are adding unitprice and quantity 
 in a grop of user, so will end up one row per one user'''
 df_cluster=pd.DataFrame(columns=['Quantity','UnitPrice','CustomerID'])
@@ -75,9 +76,8 @@ plt.title('The Elbow Method')
 plt.xlabel('Number Of Customer Clusters(customer type clusters)')
 plt.ylabel('With in cluster sum of squers(WCSS)')
 plt.show()
-'''
-From the plot we can see that at 3 distortion goes rapidly so n_clusters=3
-'''
+
+#From the plot we can see that at 3 distortion goes rapidly so n_clusters=3
 # Fitting K-Means to the dataset
 kmeans = KMeans(n_clusters = 3, init = 'k-means++')
 y_kmeans = kmeans.fit_predict(X)
