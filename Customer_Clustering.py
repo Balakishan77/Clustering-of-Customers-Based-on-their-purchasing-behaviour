@@ -8,22 +8,8 @@ import matplotlib.pyplot as plt
 #Importing the dataset
 dataset=pd.read_csv("data.csv",encoding = "ISO-8859-1") # Encoded as this dataset contains West Europe countries retail transactions
 dataset.shape  #(541909, 8)
-'''
-> dataset.select_dtypes(include=['object']).columns
-Index(['InvoiceNo', 'StockCode', 'Description', 'InvoiceDate', 'Country'], dtype='object')
-> dataset.dtypes
-InvoiceNo       object
-StockCode       object
-Description     object
-Quantity         int64
-InvoiceDate     object
-UnitPrice      float64
-CustomerID     float64
-Country         objectvnv
-dtype: object
-> dataset['Country'].dtype
-dtype('O')
-'''
+dataset.select_dtypes(include=['object']).columns #Index(['InvoiceNo', 'StockCode', 'Description', 'InvoiceDate', 'Country'], dtype='object')
+
 #will remove the duplicate entries in the datset - 5268
 print (dataset.duplicated().sum())    
 dataset.drop_duplicates(inplace = True)
